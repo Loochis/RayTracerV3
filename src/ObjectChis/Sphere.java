@@ -4,13 +4,12 @@ import MathChis.HitInfo;
 import MathChis.Ray;
 import MathChis.TransformMatrix;
 import MathChis.Vector3;
+import MatterChis.Material;
 
-import java.util.Random;
+public class Sphere extends RenderableObject {
 
-public class Sphere extends Entity {
-
-    public Sphere(Vector3 pos, double radius) {
-        super(new TransformMatrix(pos, new Vector3(), new Vector3(radius)));
+    public Sphere(Vector3 pos, double radius, Material mat) {
+        super(new TransformMatrix(pos, new Vector3(), new Vector3(radius)), mat);
     }
 
     @Override
@@ -29,9 +28,15 @@ public class Sphere extends Entity {
         if (finalDepth <= 0)
             return null;
 
+        // Get hit point and hit normal
         Vector3 finalP = Vector3.Add(Vector3.Mul(ray.dir, finalDepth), ray.origin);
         Vector3 norm = Vector3.Normalize(Vector3.Sub(finalP, super.trMatrix.position));
 
-        return new HitInfo(finalP, norm, t - x);
+        // Calculate UV coords
+        double u = Math.atan2(norm.x, norm.z) / (Math.PI) + 0.5d;
+        double v = norm.y * 0.5d + 0.5d;
+
+        // Generate a hit-object
+        return new HitInfo(finalP, norm, t - x, new Vector3(u, v, 0), ray, this);
     }
 }

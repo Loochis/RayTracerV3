@@ -8,9 +8,9 @@ import ObjectChis.Scene;
 
 import java.awt.*;
 
-public class DebugRendNormalsView extends Renderer {
+public class DebugRendUVView extends Renderer {
 
-    public DebugRendNormalsView(int pixWidth, int pixHeight, TransformMatrix camTransformMatrix, Scene scene) {
+    public DebugRendUVView(int pixWidth, int pixHeight, TransformMatrix camTransformMatrix, Scene scene) {
         super(pixWidth, pixHeight, camTransformMatrix, scene);
     }
 
@@ -19,8 +19,12 @@ public class DebugRendNormalsView extends Renderer {
         Ray ray = GetTransformedRay(x, y);
         HitInfo hitInfo = GetClosestHit(ray);
         if (hitInfo != null) {
-
-            return new Color((float) Math.max(hitInfo.normal.x, 0), (float) Math.max(hitInfo.normal.y, 0), (float) Math.max(hitInfo.normal.z, 0));
+            int evenOdd = (int)Math.floor(hitInfo.uvCoords.x * 10) + (int)Math.floor(hitInfo.uvCoords.y * 10);
+            if (evenOdd % 2 == 0) {
+                return new Color(208, 208, 208);
+            } else {
+                return new Color((float)(hitInfo.uvCoords.x * 1) % 1, (float)(hitInfo.uvCoords.y * 1) % 1, 0f);
+            }
         }
         return new Color(0,0,0);
     }

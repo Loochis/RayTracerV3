@@ -8,21 +8,35 @@ import ObjectChis.Scene;
 
 import java.awt.*;
 
-public class DebugRendNormalsView extends Renderer {
+public class RendFlat extends Renderer {
 
-    public DebugRendNormalsView(int pixWidth, int pixHeight, TransformMatrix camTransformMatrix, Scene scene) {
+    public RendFlat(int pixWidth, int pixHeight, TransformMatrix camTransformMatrix, Scene scene) {
         super(pixWidth, pixHeight, camTransformMatrix, scene);
     }
 
     @Override
     public Color GetPixelColor(double x, double y) {
         Ray ray = GetTransformedRay(x, y);
-        HitInfo hitInfo = GetClosestHit(ray);
-        if (hitInfo != null) {
-
-            return new Color((float) Math.max(hitInfo.normal.x, 0), (float) Math.max(hitInfo.normal.y, 0), (float) Math.max(hitInfo.normal.z, 0));
+        try {
+            return RecursiveTrace(ray);
+        } catch (Exception e) {
+            return Consts.ERROR_COL;
         }
-        return new Color(0,0,0);
+    }
+
+    private Color RecursiveTrace(Ray rayIn) {
+        HitInfo hitInfo = GetClosestHit(rayIn);
+        if (hitInfo == null)
+            return Consts.SKY_COL;
+
+        Color hitCol = hitInfo.hitObject.mat.GetMatColor(hitInfo);
+        Ray reflectedRay = hitInfo.hitObject.mat.GetRayDir(hitInfo);
+        if (reflectedRay == null) {
+            return hitCol;
+        } else {
+            return Consts.ERROR_COL;
+            // TODO: IMPLEMENT COLOR MATH
+        }
     }
 
     private HitInfo GetClosestHit(Ray ray) {

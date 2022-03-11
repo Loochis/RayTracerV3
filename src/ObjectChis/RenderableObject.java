@@ -3,13 +3,15 @@ package ObjectChis;
 import MathChis.HitInfo;
 import MathChis.Ray;
 import MathChis.TransformMatrix;
-import sun.corba.EncapsInputStreamFactory;
+import MatterChis.Material;
 
-public abstract class Entity {
+public abstract class RenderableObject {
     public TransformMatrix trMatrix;
+    public Material mat;
 
-    public Entity(TransformMatrix trMatrix) {
+    public RenderableObject(TransformMatrix trMatrix, Material mat) {
         this.trMatrix = trMatrix;
+        this.mat = mat;
     }
 
     public abstract HitInfo HitTest(Ray ray);

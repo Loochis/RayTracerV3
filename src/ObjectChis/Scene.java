@@ -3,5 +3,5 @@ package ObjectChis;
 import java.util.ArrayList;
 
 public class Scene {
-    public ArrayList<Entity> sceneObjs;
+    public ArrayList<RenderableObject> sceneObjs;
 }

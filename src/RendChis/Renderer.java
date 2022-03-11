@@ -24,24 +24,26 @@ public abstract class Renderer {
     public void Render(Graphics g) {
         for (int x = 0; x < pixWidth; x++) {
             for (int y = 0; y < pixHeight; y++) {
-                //Ray ray = new Ray()
-                //try {
+                try {
                     g.setColor(GetPixelColor(x, y));
-                //} catch (Exception e) {
-                    //g.setColor(Consts.ERROR_COL);
-                //}
+                } catch (Exception e) {
+                    g.setColor(Consts.ERROR_COL);
+                }
                 g.drawRect(x,pixHeight-y,0,0);
             }
         }
     }
 
-    protected Vector3 GetTransformedRayOrigin(double x, double y) {
+    protected Ray GetTransformedRay(double x, double y) {
         double xPercent = ((double)x/(double)pixWidth) * 2d - 1d;
         double yPercent = ((double)y/(double)pixHeight) * 2d - 1d;
         xPercent *= camTransformMatrix.scale.x;
         yPercent *= camTransformMatrix.scale.y;
         Vector3 outPos = new Vector3(xPercent, yPercent, 0);
         outPos = Vector3.Add(outPos, camTransformMatrix.position);
-        return outPos;
+
+        Vector3 frustumPos = Vector3.Add(camTransformMatrix.position, new Vector3(0,0, camTransformMatrix.scale.z));
+        Vector3 rayDir = Vector3.Normalize(Vector3.Sub(outPos, frustumPos));
+        return new Ray(outPos, rayDir);
     }
 }

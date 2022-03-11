@@ -46,6 +46,11 @@ public class Vector3{
         return new Vector3(-v.x, -v.y, -v.z);
     }
 
+    public static Vector3 Reflect(Vector3 in, Vector3 normal) {
+        double coeff = 2*Vector3.Dot(in, normal);
+        return Vector3.Sub(in, Vector3.Mul(normal, coeff));
+    }
+
     // INSTANCE METHODS -------------------------- //
 
     public double Length2() {
