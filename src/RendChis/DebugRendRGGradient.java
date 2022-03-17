@@ -1,5 +1,7 @@
 package RendChis;
 
+import ColorChis.HDRColor;
+
 import java.awt.*;
 
 public class DebugRendRGGradient extends Renderer{
@@ -9,7 +11,7 @@ public class DebugRendRGGradient extends Renderer{
     }
 
     @Override
-    public Color GetPixelColor(double x, double y) {
-        return new Color((float)x/(float)pixWidth, (float)y/(float)pixHeight, 0f, 1f);
+    public HDRColor GetPixelColor(double x, double y) {
+        return new HDRColor(x/(double)pixWidth, y/(double)pixHeight, 0d);
     }
 }

@@ -9,9 +9,9 @@ import ObjectChis.Scene;
 
 import java.awt.*;
 
-public class RendFlat extends Renderer {
+public class RendReflections extends Renderer {
 
-    public RendFlat(int pixWidth, int pixHeight, TransformMatrix camTransformMatrix, Scene scene) {
+    public RendReflections(int pixWidth, int pixHeight, TransformMatrix camTransformMatrix, Scene scene) {
         super(pixWidth, pixHeight, camTransformMatrix, scene);
     }
 
@@ -33,7 +33,7 @@ public class RendFlat extends Renderer {
         if (reflectedRay == null) {
             return hitCol;
         } else {
-            return hitCol;
+            return HDRColor.Add(hitCol, HDRColor.Mul(RecursiveTrace(reflectedRay, depth+1), 0.8d));
         }
     }
 

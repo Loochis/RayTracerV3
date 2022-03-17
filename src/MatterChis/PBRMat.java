@@ -1,5 +1,6 @@
 package MatterChis;
 
+import ColorChis.HDRColor;
 import MathChis.HitInfo;
 import MathChis.Ray;
 import MathChis.Vector3;
@@ -39,10 +40,10 @@ public class PBRMat extends Material{
     }
 
     @Override
-    public Color GetMatColor(HitInfo info) {
-        int newX = (int)((info.uvCoords.x%1d)*argImgs[0].getWidth());
-        int newY = (int)((info.uvCoords.y%1d)*argImgs[0].getHeight());
-        return bufIMGtoColor(argImgs[0].getRGB(newX, newY));
+    public HDRColor GetMatColor(HitInfo info) {
+        int newX = Math.floorMod((int)(info.uvCoords.x*argImgs[0].getWidth()), argImgs[0].getWidth());
+        int newY = Math.floorMod((int)(info.uvCoords.y*argImgs[0].getHeight()), argImgs[0].getHeight());
+        return new HDRColor(bufIMGtoColor(argImgs[0].getRGB(newX, newY)));
     }
 
     @Override

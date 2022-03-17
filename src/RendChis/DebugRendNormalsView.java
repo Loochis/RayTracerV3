@@ -1,5 +1,6 @@
 package RendChis;
 
+import ColorChis.HDRColor;
 import MathChis.HitInfo;
 import MathChis.Ray;
 import MathChis.TransformMatrix;
@@ -15,14 +16,14 @@ public class DebugRendNormalsView extends Renderer {
     }
 
     @Override
-    public Color GetPixelColor(double x, double y) {
+    public HDRColor GetPixelColor(double x, double y) {
         Ray ray = GetTransformedRay(x, y);
         HitInfo hitInfo = GetClosestHit(ray);
         if (hitInfo != null) {
 
-            return new Color((float) Math.max(hitInfo.normal.x, 0), (float) Math.max(hitInfo.normal.y, 0), (float) Math.max(hitInfo.normal.z, 0));
+            return new HDRColor((float) Math.max(hitInfo.normal.x, 0), (float) Math.max(hitInfo.normal.y, 0), (float) Math.max(hitInfo.normal.z, 0));
         }
-        return new Color(0,0,0);
+        return new HDRColor(0,0,0);
     }
 
     private HitInfo GetClosestHit(Ray ray) {

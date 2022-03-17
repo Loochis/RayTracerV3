@@ -1,5 +1,6 @@
 package RendChis;
 
+import ColorChis.HDRColor;
 import MathChis.HitInfo;
 import MathChis.Ray;
 import MathChis.TransformMatrix;
@@ -15,14 +16,14 @@ public class DebugRendDepthView extends Renderer {
     }
 
     @Override
-    public Color GetPixelColor(double x, double y) {
+    public HDRColor GetPixelColor(double x, double y) {
         Ray ray = GetTransformedRay(x, y);
         HitInfo hitInfo = GetClosestHit(ray);
         if (hitInfo != null) {
 
-            return new Color(1f/(float)hitInfo.depth, 1f/(float) hitInfo.depth, 1f/(float) hitInfo.depth);
+            return new HDRColor(1f/(float)hitInfo.depth, 1f/(float) hitInfo.depth, 1f/(float) hitInfo.depth);
         }
-        return new Color(0,0,0);
+        return new HDRColor(0,0,0);
     }
 
     private HitInfo GetClosestHit(Ray ray) {

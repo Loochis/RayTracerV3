@@ -1,5 +1,6 @@
 package RendChis;
 
+import ColorChis.HDRColor;
 import MathChis.HitInfo;
 import MathChis.Ray;
 import MathChis.TransformMatrix;
@@ -15,18 +16,18 @@ public class DebugRendUVView extends Renderer {
     }
 
     @Override
-    public Color GetPixelColor(double x, double y) {
+    public HDRColor GetPixelColor(double x, double y) {
         Ray ray = GetTransformedRay(x, y);
         HitInfo hitInfo = GetClosestHit(ray);
         if (hitInfo != null) {
             int evenOdd = (int)Math.floor(hitInfo.uvCoords.x * 10) + (int)Math.floor(hitInfo.uvCoords.y * 10);
             if (evenOdd % 2 == 0) {
-                return new Color(208, 208, 208);
+                return new HDRColor(208, 208, 208);
             } else {
-                return new Color((float)(hitInfo.uvCoords.x * 1) % 1, (float)(hitInfo.uvCoords.y * 1) % 1, 0f);
+                return new HDRColor((float)(hitInfo.uvCoords.x * 1) % 1, (float)(hitInfo.uvCoords.y * 1) % 1, 0f);
             }
         }
-        return new Color(0,0,0);
+        return new HDRColor(0,0,0);
     }
 
     private HitInfo GetClosestHit(Ray ray) {

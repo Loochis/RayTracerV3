@@ -4,14 +4,15 @@ import ColorChis.HDRColor;
 import MathChis.HitInfo;
 import MathChis.Ray;
 import MathChis.TransformMatrix;
+import MathChis.Vector3;
 import ObjectChis.RenderableObject;
 import ObjectChis.Scene;
 
 import java.awt.*;
 
-public class RendFlat extends Renderer {
+public class RendLit extends Renderer {
 
-    public RendFlat(int pixWidth, int pixHeight, TransformMatrix camTransformMatrix, Scene scene) {
+    public RendLit(int pixWidth, int pixHeight, TransformMatrix camTransformMatrix, Scene scene) {
         super(pixWidth, pixHeight, camTransformMatrix, scene);
     }
 
@@ -29,11 +30,14 @@ public class RendFlat extends Renderer {
             return Consts.SKY_COL;
 
         HDRColor hitCol = hitInfo.hitObject.mat.GetMatColor(hitInfo);
+        HDRColor hitColLight = HDRColor.Mul(hitCol, Vector3.Dot(hitInfo.normal, Vector3.Normalize(new Vector3(1,1,1))));
         Ray reflectedRay = hitInfo.hitObject.mat.GetRayDir(hitInfo);
         if (reflectedRay == null) {
-            return hitCol;
+            return hitColLight;
         } else {
-            return hitCol;
+            reflectedRay.TranslateForward();
+            //return hitColLight;
+            return HDRColor.Add(hitColLight.Clamp0(), HDRColor.Mul(RecursiveTrace(reflectedRay, depth+1), 0.8d));
         }
     }
 
