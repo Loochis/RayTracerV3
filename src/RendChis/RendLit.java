@@ -33,11 +33,11 @@ public class RendLit extends Renderer {
         HDRColor hitColLight = HDRColor.Mul(hitCol, Vector3.Dot(hitInfo.normal, Vector3.Normalize(new Vector3(1,1,1))));
         Ray reflectedRay = hitInfo.hitObject.mat.GetRayDir(hitInfo);
         if (reflectedRay == null) {
-            return hitColLight;
+            return Consts.ERROR_COL;
         } else {
             reflectedRay.TranslateForward();
             //return hitColLight;
-            return HDRColor.Add(hitColLight.Clamp0(), HDRColor.Mul(RecursiveTrace(reflectedRay, depth+1), 0.8d));
+            return HDRColor.Add(hitColLight.Clamp0(), HDRColor.Mul(RecursiveTrace(reflectedRay, depth+1), 0.2d));
         }
     }
 

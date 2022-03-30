@@ -27,13 +27,12 @@ public abstract class Renderer {
     public abstract HDRColor GetPixelColor(double x, double y);
 
     public void Render(Graphics g) {
-
         for (int x = 0; x < pixWidth; x++) {
             for (int y = 0; y < pixHeight; y++) {
                 HDRColor pixCol = new HDRColor(0,0,0);
                 for (int s = 0; s < Consts.PIX_SAMPLES; s++) {
-                    double xOff = random.nextDouble();
-                    double yOff = random.nextDouble();
+                    double xOff = 0;
+                    double yOff = 0;
                     try {
                         pixCol = HDRColor.Add(pixCol, GetPixelColor(x+xOff, y+yOff).Clamp01());
                     } catch (Exception e) {

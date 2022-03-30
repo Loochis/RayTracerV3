@@ -1,7 +1,9 @@
+import ColorChis.HDRColor;
 import MathChis.TransformMatrix;
 import MathChis.Vector3;
 import MatterChis.Material;
 import MatterChis.PBRMat;
+import MatterChis.SolidDiffuse;
 import ObjectChis.Scene;
 import ObjectChis.Sphere;
 import RendChis.*;
@@ -12,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main {
 
@@ -37,8 +40,14 @@ public class Main {
         scene.sceneObjs.add(new Sphere(new Vector3(0,0,-5), 1, tiledMat));
         scene.sceneObjs.add(new Sphere(new Vector3(1,0,-6), 1.4d, tiledMat));
         scene.sceneObjs.add(new Sphere(new Vector3(-4,2,-3), 2d, tiledMat));
+        Random rand = new Random(1);
+        for (int i = 0; i < 20; i++) {
+            Material nMat = new SolidDiffuse(new HDRColor(new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat())));
+            Vector3 newPos = new Vector3(rand.nextDouble()*cameraTr.scale.x*2d-cameraTr.scale.x, rand.nextDouble()*cameraTr.scale.y*2d-cameraTr.scale.y, rand.nextDouble()*-10 - 1);
+            scene.sceneObjs.add(new Sphere(newPos, rand.nextDouble()*2, nMat));
+        }
 
-        Renderer rend = new RendReflections(Consts.IMG_WIDTH, Consts.IMG_HEIGHT, cameraTr, scene);
+        Renderer rend = new RendLit(Consts.IMG_WIDTH, Consts.IMG_HEIGHT, cameraTr, scene);
         rend.Render(g);
 
         File theDir = new File("IMG");
