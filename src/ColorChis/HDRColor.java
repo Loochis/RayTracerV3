@@ -32,6 +32,10 @@ public class HDRColor extends Vector3 {
         return new HDRColor(Vector3.Mul(h, d));
     }
 
+    public static HDRColor Mul(HDRColor h1, HDRColor h2) {
+        return new HDRColor(h1.x*h2.x, h1.y*h2.y, h1.z*h2.z);
+    }
+
     public static HDRColor Clamp0(HDRColor h) {
         return new HDRColor(Math.max(h.x,0), Math.max(h.y,0), Math.max(h.z,0));
     }

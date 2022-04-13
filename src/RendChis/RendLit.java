@@ -37,7 +37,7 @@ public class RendLit extends Renderer {
         } else {
             reflectedRay.TranslateForward();
             //return hitColLight;
-            return HDRColor.Add(hitColLight.Clamp0(), HDRColor.Mul(RecursiveTrace(reflectedRay, depth+1), 0.2d));
+            return HDRColor.Add(hitColLight.Clamp0(), HDRColor.Mul(RecursiveTrace(reflectedRay, depth+1), hitCol));
         }
     }
 
@@ -52,4 +52,5 @@ public class RendLit extends Renderer {
         }
         return closestInfo;
     }
+
 }
